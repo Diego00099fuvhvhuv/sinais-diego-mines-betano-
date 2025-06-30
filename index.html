@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sinais Diego Mines Betano</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #121212;
+      color: #ffffff;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      color: #00e676;
+    }
+    .sinal-box {
+      background-color: #1e1e1e;
+      border-radius: 10px;
+      padding: 20px;
+      margin: 20px 0;
+      box-shadow: 0 0 10px rgba(0, 230, 118, 0.5);
+    }
+    .sinal {
+      font-size: 1.5rem;
+      color: #ffffff;
+      text-align: center;
+      margin: 10px 0;
+    }
+    button {
+      background-color: #00e676;
+      color: #000;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 20px;
+      font-size: 1rem;
+      cursor: pointer;
+      margin: 5px;
+      transition: 0.3s;
+    }
+    button:hover {
+      background-color: #00c853;
+    }
+    .historico {
+      margin-top: 20px;
+    }
+    .linha {
+      display: flex;
+      justify-content: space-between;
+      background-color: #1a1a1a;
+      padding: 10px;
+      margin: 5px 0;
+      border-radius: 5px;
+    }
+    .acerto { color: #00e676; }
+    .erro { color: #ff1744; }
+    .status {
+      font-weight: bold;
+      margin-top: 10px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <h1>Sinais Diego Mines Betano</h1>
+
+  <div class="sinal-box">
+    <div class="sinal" id="sinal">Clique em "Gerar Novo Sinal"</div>
+    <div style="text-align: center;">
+      <button onclick="gerarSinal()">🔁 Gerar Novo Sinal</button>
+      <button onclick="registrarResultado(true)">✅ Acerto</button>
+      <button onclick="registrarResultado(false)">❌ Erro</button>
+      <button onclick="verificarAssertividade()">📈 Ver Taxa</button>
+    </div>
+  </div>
+
+  <div class="historico" id="historico"></div>
+  <div class="status" id="status"></div>
+
+  <script>
+    const historico = [];
+
+    function gerarSinal() {
+      const casas = [];
+      while (casas.length < 3) {
+        const linha = Math.floor(Math.random() * 5) + 1;
+        const coluna = Math.floor(Math.random() * 5) + 1;
+        const pos = `[${linha},${coluna}]`;
+        if (!casas.includes(pos)) casas.push(pos);
+      }
+      document.getElementById("sinal").innerText = `Clique nas casas: ${casas.join('  ')}`;
+    }
+
+    function registrarResultado(acerto) {
+      const sinalTexto = document.getElementById("sinal").innerText;
+      if (!sinalTexto.includes("Clique nas casas")) return;
+      historico.unshift({ texto: sinalTexto, acerto });
+      if (historico.length > 10) historico.pop();
+      renderHistorico();
+    }
+
+    function renderHistorico() {
+      const div = document.getElementById("historico");
+      div.innerHTML = "<h3>Histórico</h3>";
+      historico.forEach((item, i) => {
+        div.innerHTML += `<div class='linha'>#${i+1} — ${item.texto} <span class='${item.acerto ? 'acerto' : 'erro'}'>${item.acerto ? '✔' : '✖'}</span></div>`;
+      });
+    }
+
+    function verificarAssertividade() {
+      if (historico.length === 0) return;
+      const total = historico.length;
+      const acertos = historico.filter(h => h.acerto).length;
+      const taxa = Math.round((acertos / total) * 100);
+      let texto = `Assertividade: ${taxa}% — `;
+      if (taxa >= 90) texto += "🔥 Excelente";
+      else if (taxa >= 75) texto += "✅ Boa";
+      else if (taxa >= 50) texto += "⚠️ Razoável";
+      else texto += "❌ Ruim";
+      document.getElementById("status").innerText = texto;
+    }
+  </script>
+</body>
+</html>
